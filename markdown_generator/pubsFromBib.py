@@ -26,27 +26,39 @@ import re
 
 #todo: incorporate different collection types rather than a catch all publications, requires other changes to template
 publist = {
-    "proceeding": {
-        "file" : "proceedings.bib",
-        "venuekey": "booktitle",
-        "venue-pretext": "In the proceedings of ",
-        "collection" : {"name":"publications",
-                        "permalink":"/publication/"}
-        
-    },
+    #"proceeding": {
+    #    "file" : "proceedings.bib",
+    #    "venuekey": "booktitle",
+    #    "venue-pretext": "In the proceedings of ",
+    #    "collection" : {"name":"publications",
+    #                    "permalink":"/publication/"}
+    #    
+    #},
     "journal":{
         "file": "pubs.bib",
         "venuekey" : "journal",
         "venue-pretext" : "",
+        "category": "manuscripts",
         "collection" : {"name":"publications",
                         "permalink":"/publication/"}
-    } 
+    },
+    "thesis": {
+        "file": "thesis.bib",
+        "venuekey": "school",
+        "venue-pretext": "PhD thesis, ",
+        "category": "thesis",
+        "collection": {"name": "publications",
+                       "permalink": "/publication/"}
+    }
 }
 
 html_escape_table = {
-    "&": "&amp;",
-    '"': "&quot;",
-    "'": "&apos;"
+    #"&": "&amp;",
+    #'"': "&quot;",
+    #"'": "&apos;"
+    "&": "&",
+    '"': '"',
+    "'": "'"
     }
 
 def html_escape(text):
@@ -116,6 +128,8 @@ for pubsource in publist:
             md = "---\ntitle: \""   + html_escape(b["title"].replace("{", "").replace("}","").replace("\\","")) + '"\n'
             
             md += """collection: """ +  publist[pubsource]["collection"]["name"]
+
+            md += """\ncategory: """ + publist[pubsource]["category"]
 
             md += """\npermalink: """ + publist[pubsource]["collection"]["permalink"]  + html_filename
             
